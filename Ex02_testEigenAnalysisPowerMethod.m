@@ -1,14 +1,10 @@
 % The power method for eigenvalue decomposition
 %
-% Student Name:
-% Student Email:
-% Date:
-%
 % BMI500 Course
 % Lecture:  An Introduction to Blind Source Separation and Independent Component Analysis
 %           By: R. Sameni
-% Date: Fall 2020
-% Department of Biomedical Informatics, Emory University, Atlanta, GA, USA
+%           Department of Biomedical Informatics, Emory University, Atlanta, GA, USA
+%           Fall 2020
 %
 % Dependency: The open-source electrophysiological toolbox (OSET):
 %       https://github.com/alphanumericslab/OSET.git

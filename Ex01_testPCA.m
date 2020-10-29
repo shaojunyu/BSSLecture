@@ -1,14 +1,10 @@
 % Principal component analysis
 %
-% Student Name:
-% Student Email:
-% Date:
-%
 % BMI500 Course
 % Lecture:  An Introduction to Blind Source Separation and Independent Component Analysis
 %           By: R. Sameni
-% Date: Fall 2020
-% Department of Biomedical Informatics, Emory University, Atlanta, GA, USA
+%           Department of Biomedical Informatics, Emory University, Atlanta, GA, USA
+%           Fall 2020
 %
 % Dependency: The open-source electrophysiological toolbox (OSET):
 %       https://github.com/alphanumericslab/OSET.git
@@ -20,18 +16,22 @@ clc
 clear
 close all
 
-% % Load a sample EEG signal
-% load EEGdata textdata data % A sample EEG from the OSET package
-% fs = 250;
-% x = data'; % make the data in (channels x samples) format
-% % Check the channel names
-% disp(textdata)
-
-% Load a sample ECG signal
-load SampleECG2 data % A sample ECG from the OSET package
-fs = 1000;
-x = data(:, 2:end)'; % make the data in (channels x samples) format
-x = x - LPFilter(x, 1.0/fs); % remove the lowpass baseline
+example = 1;
+switch example
+    case 1 % Load a sample EEG signal
+        load EEGdata textdata data % A sample EEG from the OSET package
+        fs = 250;
+        x = data'; % make the data in (channels x samples) format
+        % Check the channel names
+        disp(textdata)
+    case 2 % Load a sample ECG signal
+        load SampleECG2 data % A sample ECG from the OSET package
+        fs = 1000;
+        x = data(:, 2:end)'; % make the data in (channels x samples) format
+        x = x - LPFilter(x, 1.0/fs); % remove the lowpass baseline
+    otherwise
+        error('unknown example');
+end
 
 N = size(x, 1); % The number of channels
 T = size(x, 2); % The number of samples per channel
@@ -99,6 +99,7 @@ for ch = 1 : N
     hold on
     plot(t, x(ch, :));
     plot(t, x_compressed(ch, :));
+    legend(['channel ' num2str(ch)], 'compressed');
     grid
 end
 
