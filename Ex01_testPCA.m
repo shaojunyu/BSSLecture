@@ -16,7 +16,7 @@ clc
 clear
 close all
 
-example = 1;
+example = 2;
 switch example
     case 1 % Load a sample EEG signal
         load EEGdata textdata data % A sample EEG from the OSET package
@@ -37,7 +37,7 @@ N = size(x, 1); % The number of channels
 T = size(x, 2); % The number of samples per channel
 
 % Plot the channels
-PlotECG(x, 4, 'b', fs, 'Raw data channels');
+% PlotECG(x, 4, 'b', fs, 'Raw data channels');
 
 % Remove the channel means
 x_demeaned = x - mean(x, 2) * ones(1, size(x, 2));
@@ -46,7 +46,7 @@ x_demeaned = x - mean(x, 2) * ones(1, size(x, 2));
 % PlotECG(x_demeaned, 4, 'r', fs, 'Zero-mean data channels');
 
 % Covariance matrix of the input
-Cx = cov(x_demeaned')
+Cx = cov(x_demeaned');
 
 % Eigenvalue decomposition
 [V, D] = eig(Cx, 'vector');
@@ -66,28 +66,28 @@ ylabel('Eigenvalue ratios in dB');
 title('Normalized eigenvalues in log scale');
 
 % Check signal evergy
-x_var = var(x_demeaned, [], 2) % Formula 1
-x_var2 = diag(Cx) % formula 2
+x_var = var(x_demeaned, [], 2); % Formula 1
+x_var2 = diag(Cx); % formula 2
 
 % Decorrelate the channels
 y = V' * x_demeaned;
-Cy = cov(y')
-y_var = diag(Cy)
+Cy = cov(y');
+y_var = diag(Cy);
 
 % PlotECG(y, 4, 'r', fs, 'Decorrelated data channels');
 
 % Check total energy match
-x_total_energy = sum(x_var)
-Cx_trace = trace(Cx)
-eigenvale_sum = sum(D)
-Cy_trace = trace(Cy)
+x_total_energy = sum(x_var);
+Cx_trace = trace(Cx);
+eigenvale_sum = sum(D);
+Cy_trace = trace(Cy);
 
 % partial energy in eigenvalues
-x_partial_energy = 100.0 * cumsum(D(end : -1 : 1))./x_total_energy
+x_partial_energy = 100.0 * cumsum(D(end : -1 : 1))./x_total_energy;
 
 % set a cut off threshold for the eigenvalues
-th = 99.9;
-N_eigs_to_keep = find(x_partial_energy <= th, 1, 'last')
+th = 95.0;
+N_eigs_to_keep = find(x_partial_energy <= th, 1, 'last');
 
 % find a compressed version of x
 x_compressed = V(:, N - N_eigs_to_keep + 1 : N) * y(N - N_eigs_to_keep + 1 : N, :);

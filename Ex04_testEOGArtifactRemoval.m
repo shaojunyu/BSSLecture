@@ -33,7 +33,7 @@ T = size(x, 2); % The number of samples per channel
 t = (0 : T - 1)/fs;
 
 % Plot the channels
-PlotECG(x, 4, 'b', fs, 'Raw data channels');
+% PlotECG(x, 4, 'b', fs, 'Raw data channels');
 
 % Run JADE
 lastEigJADE = N; % PCA stage
@@ -45,7 +45,7 @@ A_jade = pinv(W_JADE); % The mixing matrix
 % PlotECG(s_jade, 4, 'k', fs, 'Sources extracted by JADE');
 
 % Channel denoising by JADE
-eog_channel = [2 3]; % check from the plots to visually detect the EOG
+eog_channel = [1 2 3]; % check from the plots to visually detect the EOG
 s_jade_denoised = s_jade;
 s_jade_denoised(eog_channel, :) = 0;
 x_denoised_jade = A_jade * s_jade_denoised;
@@ -63,7 +63,7 @@ J = eog_envelope >= eog_detection_threshold;
 I = 1 : T;
 
 [s_nsca, W_nsca, A_nsca] = NSCA(x,J, I);
-% Channel denoising by JADE
+% Channel denoising by NSCA
 eog_channel = [1 2]; % check from the plots to visually detect the EOG
 s_nsca_denoised = s_nsca;
 s_nsca_denoised(eog_channel, :) = 0;
@@ -90,5 +90,5 @@ for ch = 1 : N
 end
 
 % Run the following script from the OSET package for a more advanced method
-testEOGRemoval
+% testEOGRemoval
 

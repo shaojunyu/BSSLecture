@@ -16,7 +16,7 @@ clc
 clear
 close all
 
-example = 3;
+example = 2;
 switch example
     case 1 % A sample EEG from the OSET package
         load EEGdata textdata data % Load a sample EEG signal
@@ -55,20 +55,26 @@ g = 'tanh'; % 'pow3', 'tanh', 'gauss', 'skew'
 lastEigfastica = N; % PCA stage
 numOfIC = N; % ICA stage
 interactivePCA = 'off';
-[s_fastica, A_fatsica, W_fatsica] = fastica (x, 'approach', approach, 'g', g, 'lastEig', lastEigfastica, 'numOfIC', numOfIC, 'interactivePCA', interactivePCA, 'verbose', 'off', 'displayMode', 'off');
+% [s_fastica, A_fatsica, W_fatsica] = fastica (x, 'approach', approach, 'g', g, 'lastEig', lastEigfastica, 'numOfIC', numOfIC, 'interactivePCA', interactivePCA, 'verbose', 'off', 'displayMode', 'off');
+% without N
+[s_fastica, A_fatsica, W_fatsica] = fastica (x, 'approach', approach, 'g', g, 'lastEig', lastEigfastica, 'interactivePCA', interactivePCA, 'verbose', 'off', 'displayMode', 'off');
 
 % Check the covariance matrix
 Cs = cov(s_fastica');
 
 % Run JADE
 lastEigJADE = N; % PCA stage
-W_JADE = jadeR(x, lastEigJADE);
+% W_JADE = jadeR(x, lastEigJADE);
+% test without N
+W_JADE = jadeR(x);
 s_jade = W_JADE * x;
 
 % Run SOBI
 lastEigSOBI = N; % PCA stage
 num_cov_matrices = 100;
-[W_SOBI, s_sobi] = sobi(x, lastEigSOBI, num_cov_matrices);
+% [W_SOBI, s_sobi] = sobi(x, lastEigSOBI, num_cov_matrices);
+% test without N
+[W_SOBI, s_sobi] = sobi(x, num_cov_matrices);
 
 % Plot the sources
 PlotECG(s_fastica, 4, 'r', fs, 'Sources extracted by fatsica');
